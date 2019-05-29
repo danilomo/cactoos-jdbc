@@ -24,7 +24,6 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
 import com.github.fabriciofx.cactoos.jdbc.Session;
-import com.github.fabriciofx.cactoos.jdbc.connection.ConnectionWithCaching;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.HashMap;

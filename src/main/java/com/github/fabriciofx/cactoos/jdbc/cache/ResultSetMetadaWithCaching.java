@@ -23,11 +23,11 @@
  */
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
-import com.github.fabriciofx.cactoos.jdbc.sql.SqlTokens;
+import com.github.fabriciofx.cactoos.jdbc.rset.ResultSetMetaDataEnvelope;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public final class ResultSetMetadaWithCaching extends ResultSetMetadaEnvelope {
+public final class ResultSetMetadaWithCaching extends ResultSetMetaDataEnvelope {
     private final SqlTokens tokens;
 
     public ResultSetMetadaWithCaching(

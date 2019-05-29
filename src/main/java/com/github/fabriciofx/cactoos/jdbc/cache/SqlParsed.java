@@ -23,16 +23,15 @@
  */
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
-import com.github.fabriciofx.cactoos.jdbc.QueryParam;
-import com.github.fabriciofx.cactoos.jdbc.QueryParams;
-import com.github.fabriciofx.cactoos.jdbc.QueryParamsSmart;
+import com.github.fabriciofx.cactoos.jdbc.Param;
+import com.github.fabriciofx.cactoos.jdbc.Params;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.cactoos.Scalar;
 import org.cactoos.Text;
-import org.cactoos.scalar.StickyScalar;
+import org.cactoos.scalar.Sticky;
 import org.cactoos.text.FormattedText;
 
 /**
@@ -51,8 +50,8 @@ public final class SqlParsed implements Text  {
      * @param sql SQL query
      * @param params SQL query parameters
      */
-    public SqlParsed(final String sql, final QueryParam... params) {
-        this(() -> sql, new QueryParamsSmart(params));
+    public SqlParsed(final String sql, final Param... params) {
+        this(() -> sql, new Params(params));
     }
 
     /**
@@ -60,8 +59,8 @@ public final class SqlParsed implements Text  {
      * @param sql SQL query
      * @param params SQL query parameters
      */
-    public SqlParsed(final Text sql, final QueryParam... params) {
-        this(sql, new QueryParamsSmart(params));
+    public SqlParsed(final Text sql, final Param... params) {
+        this(sql, new Params(params));
     }
 
     /**
@@ -69,8 +68,8 @@ public final class SqlParsed implements Text  {
      * @param sql SQL query
      * @param params SQL query parameters
      */
-    public SqlParsed(final Text sql, final QueryParams params) {
-        this.sql = new StickyScalar<>(
+    public SqlParsed(final Text sql, final Params params) {
+        this.sql = new Sticky<>(
             () -> {
                 final String str = sql.asString();
                 final List<String> names = new LinkedList<>();

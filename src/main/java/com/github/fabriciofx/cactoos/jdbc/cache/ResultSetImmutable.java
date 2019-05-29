@@ -44,13 +44,11 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import jdk.internal.util.xml.impl.Input;
 
 public final class ResultSetImmutable implements ResultSet {
     private final List<List<Object>> rows;
