@@ -44,4 +44,8 @@ public class Row {
         return i <= 0 || i > cells.size();
     }
 
+    @Override
+    public String toString() {
+        return cells.toString();
+    }
 }

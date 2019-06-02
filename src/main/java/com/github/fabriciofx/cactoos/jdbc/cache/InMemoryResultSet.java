@@ -1,5 +1,6 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
+import com.github.fabriciofx.cactoos.jdbc.cache.Row;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.InputStream;
@@ -14,13 +15,13 @@ import java.util.Map;
 /**
  * A read-only ResultSet with underlying data extracted from an iterator.
  */
-public class ResultSetFromIterator implements ResultSet {
+public class InMemoryResultSet implements ResultSet  {
 
     private long index;
     private Row currentRow;
     private Iterator<Row> rowsIterator;
 
-    public ResultSetFromIterator(Iterator<Row> rowsIterator) {
+    public InMemoryResultSet(Iterator<Row> rowsIterator) {
         this.rowsIterator = rowsIterator;
     }
 
