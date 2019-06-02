@@ -65,7 +65,7 @@ public final class Logged extends PreparedStatementEnvelope {
     private final PreparedStatement origin;
 
     /**
-     * The name of source value.
+     * The name of source asObject.
      */
     private final String source;
 
@@ -166,7 +166,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%d' value."
+                        "parameter[#%d] with '%d' asObject."
                     ),
                     this.source,
                     this.id,
@@ -190,7 +190,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%s' value."
+                        "parameter[#%d] with '%s' asObject."
                     ),
                     this.source,
                     this.id,
@@ -211,7 +211,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%d' value."
+                        "parameter[#%d] with '%d' asObject."
                     ),
                     this.source,
                     this.id,
@@ -235,7 +235,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%d' value."
+                        "parameter[#%d] with '%d' asObject."
                     ),
                     this.source,
                     this.id,
@@ -256,7 +256,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%d' value."
+                        "parameter[#%d] with '%d' asObject."
                     ),
                     this.source,
                     this.id,
@@ -277,7 +277,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%d' value."
+                        "parameter[#%d] with '%d' asObject."
                     ),
                     this.source,
                     this.id,
@@ -301,7 +301,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%f' value."
+                        "parameter[#%d] with '%f' asObject."
                     ),
                     this.source,
                     this.id,
@@ -325,7 +325,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%f' value."
+                        "parameter[#%d] with '%f' asObject."
                     ),
                     this.source,
                     this.id,
@@ -349,7 +349,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%s' value."
+                        "parameter[#%d] with '%s' asObject."
                     ),
                     this.source,
                     this.id,
@@ -373,7 +373,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%s' value."
+                        "parameter[#%d] with '%s' asObject."
                     ),
                     this.source,
                     this.id,
@@ -418,7 +418,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%s' value."
+                        "parameter[#%d] with '%s' asObject."
                     ),
                     this.source,
                     this.id,
@@ -439,7 +439,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%s' value."
+                        "parameter[#%d] with '%s' asObject."
                     ),
                     this.source,
                     this.id,
@@ -463,7 +463,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%s' value."
+                        "parameter[#%d] with '%s' asObject."
                     ),
                     this.source,
                     this.id,
@@ -611,7 +611,7 @@ public final class Logged extends PreparedStatementEnvelope {
                     new Joined(
                         " ",
                         "[%s] PreparedStatement[#%d] changed at",
-                        "parameter[#%d] with '%s' value."
+                        "parameter[#%d] with '%s' asObject."
                     ),
                     this.source,
                     this.id,
