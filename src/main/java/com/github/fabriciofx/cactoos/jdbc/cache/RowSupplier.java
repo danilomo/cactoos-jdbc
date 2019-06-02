@@ -1,8 +1,6 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Value;
-
-import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
@@ -18,18 +16,18 @@ public class RowSupplier implements Supplier<Row> {
 
     public RowSupplier(ResultSet resultSet) {
         this.resultSet = resultSet;
-        this.mapping   = mappingFromResultSet(resultSet);
+        this.mapping = mappingFromResultSet(resultSet);
     }
 
     private Function<String, Integer> mappingFromResultSet(ResultSet resultSet) {
         try {
             ResultSetMetaData rsmd = resultSet.getMetaData();
             Map<String, Integer> map = new HashMap<>();
-            for(int i = 1; i <= rsmd.getColumnCount(); i++){
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 map.put(rsmd.getColumnName(i), i);
             }
             return str -> map.getOrDefault(str, -1);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return str -> -1;
         }
     }
@@ -39,10 +37,10 @@ public class RowSupplier implements Supplier<Row> {
         List<Value> list = new ArrayList<>();
         try {
             ResultSetMetaData rsmd = resultSet.getMetaData();
-            for (int i = 1; i <= rsmd.getColumnCount(); i++){
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 list.add(Value.of(resultSet.getObject(i)));
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }

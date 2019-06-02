@@ -15,6 +15,11 @@ public class DoubleValue implements Value {
     }
 
     @Override
+    public Optional<String> asString() {
+        return Optional.of(String.valueOf(value));
+    }
+
+    @Override
     public Object asObject() {
         return Double.valueOf(value);
     }

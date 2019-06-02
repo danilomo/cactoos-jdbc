@@ -1,28 +1,44 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
-import com.github.fabriciofx.cactoos.jdbc.cache.Row;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
+import com.github.fabriciofx.cactoos.jdbc.cache.meta.Metadata;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.Clob;
+import java.sql.Date;
+import java.sql.NClob;
+import java.sql.Ref;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.RowId;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.SQLXML;
+import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * A read-only ResultSet with underlying data extracted from an iterator.
  */
-public class InMemoryResultSet implements ResultSet  {
+public class InMemoryResultSet implements ResultSet {
 
+    private final Metadata metadata;
     private long index;
     private Row currentRow;
     private Iterator<Row> rowsIterator;
 
-    public InMemoryResultSet(Iterator<Row> rowsIterator) {
+    public InMemoryResultSet(Iterator<Row> rowsIterator, Metadata metadata) {
         this.rowsIterator = rowsIterator;
+        this.metadata = metadata;
+        this.index = 0;
     }
 
     @Override
@@ -32,7 +48,6 @@ public class InMemoryResultSet implements ResultSet  {
             currentRow = rowsIterator.next();
             return true;
         }
-
         return false;
     }
 
@@ -46,8 +61,8 @@ public class InMemoryResultSet implements ResultSet  {
         throw new NotImplementedException();
     }
 
-    public void checkBounds(int i) throws SQLException{
-        if(currentRow.outOfBounds(i)){
+    public void checkBounds(int i) throws SQLException {
+        if (currentRow.outOfBounds(i)) {
             throw new SQLException("Column index outside bounds");
         }
     }
@@ -58,7 +73,8 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asString()
-            .orElseThrow( () -> new SQLException("Column cannot be converted to String"));
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to String"));
     }
 
     @Override
@@ -67,7 +83,8 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asBoolean()
-            .orElseThrow( () -> new SQLException("Column cannot be converted to boolean"));
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to boolean"));
     }
 
     @Override
@@ -76,8 +93,9 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asInt()
-            .filter( val -> val <= Byte.MAX_VALUE )
-            .orElseThrow( () -> new SQLException("Column cannot be converted to byte"))
+            .filter(val -> val <= Byte.MAX_VALUE)
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to byte"))
             .byteValue();
     }
 
@@ -87,8 +105,9 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asInt()
-            .filter( val -> val <= Short.MAX_VALUE )
-            .orElseThrow( () -> new SQLException("Column cannot be converted to short"))
+            .filter(val -> val <= Short.MAX_VALUE)
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to short"))
             .shortValue();
     }
 
@@ -98,7 +117,8 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asInt()
-            .orElseThrow( () -> new SQLException("Column cannot be converted to int"));
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to int"));
     }
 
     @Override
@@ -107,7 +127,8 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asInt()
-            .orElseThrow( () -> new SQLException("Column cannot be converted to long"));
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to long"));
     }
 
     @Override
@@ -116,7 +137,8 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asDouble()
-            .orElseThrow( () -> new SQLException("Column cannot be converted to float"))
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to float"))
             .floatValue();
     }
 
@@ -126,10 +148,11 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asDouble()
-            .orElseThrow( () -> new SQLException("Column cannot be converted to double"));
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to double"));
     }
 
-    @SuppressWarnings( "deprecation" )
+    @SuppressWarnings("deprecation")
     @Override
     public BigDecimal getBigDecimal(int i, int i1) throws SQLException {
         throw new NotImplementedException();
@@ -146,7 +169,8 @@ public class InMemoryResultSet implements ResultSet  {
         return currentRow
             .cell(i)
             .asDate()
-            .orElseThrow( () -> new SQLException("Column cannot be converted to Date"));
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to Date"));
     }
 
     @Override
@@ -164,7 +188,7 @@ public class InMemoryResultSet implements ResultSet  {
         throw new NotImplementedException();
     }
 
-    @SuppressWarnings( "deprecation" )
+    @SuppressWarnings("deprecation")
     @Override
     public InputStream getUnicodeStream(int i) throws SQLException {
         throw new NotImplementedException();
@@ -215,7 +239,7 @@ public class InMemoryResultSet implements ResultSet  {
         throw new NotImplementedException();
     }
 
-    @SuppressWarnings( "deprecation" )
+    @SuppressWarnings("deprecation")
     @Override
     public BigDecimal getBigDecimal(String s, int i) throws SQLException {
         throw new NotImplementedException();
@@ -246,7 +270,7 @@ public class InMemoryResultSet implements ResultSet  {
         throw new NotImplementedException();
     }
 
-    @SuppressWarnings( "deprecation" )
+    @SuppressWarnings("deprecation")
     @Override
     public InputStream getUnicodeStream(String s) throws SQLException {
         throw new NotImplementedException();
@@ -274,7 +298,7 @@ public class InMemoryResultSet implements ResultSet  {
 
     @Override
     public ResultSetMetaData getMetaData() throws SQLException {
-        return null;
+        return metadata;
     }
 
     @Override
@@ -334,12 +358,10 @@ public class InMemoryResultSet implements ResultSet  {
 
     @Override
     public void beforeFirst() throws SQLException {
-
     }
 
     @Override
     public void afterLast() throws SQLException {
-
     }
 
     @Override
@@ -373,23 +395,21 @@ public class InMemoryResultSet implements ResultSet  {
     }
 
     @Override
-    public void setFetchDirection(int i) throws SQLException {
-
-    }
-
-    @Override
     public int getFetchDirection() throws SQLException {
         return 0;
     }
 
     @Override
-    public void setFetchSize(int i) throws SQLException {
-
+    public void setFetchDirection(int i) throws SQLException {
     }
 
     @Override
     public int getFetchSize() throws SQLException {
         return 0;
+    }
+
+    @Override
+    public void setFetchSize(int i) throws SQLException {
     }
 
     @Override
@@ -419,227 +439,192 @@ public class InMemoryResultSet implements ResultSet  {
 
     @Override
     public void updateNull(int i) throws SQLException {
-
     }
 
     @Override
     public void updateBoolean(int i, boolean b) throws SQLException {
-
     }
 
     @Override
     public void updateByte(int i, byte b) throws SQLException {
-
     }
 
     @Override
     public void updateShort(int i, short i1) throws SQLException {
-
     }
 
     @Override
     public void updateInt(int i, int i1) throws SQLException {
-
     }
 
     @Override
     public void updateLong(int i, long l) throws SQLException {
-
     }
 
     @Override
     public void updateFloat(int i, float v) throws SQLException {
-
     }
 
     @Override
     public void updateDouble(int i, double v) throws SQLException {
-
     }
 
     @Override
-    public void updateBigDecimal(int i, BigDecimal bigDecimal) throws SQLException {
-
+    public void updateBigDecimal(int i, BigDecimal bigDecimal)
+        throws SQLException {
     }
 
     @Override
     public void updateString(int i, String s) throws SQLException {
-
     }
 
     @Override
     public void updateBytes(int i, byte[] bytes) throws SQLException {
-
     }
 
     @Override
     public void updateDate(int i, Date date) throws SQLException {
-
     }
 
     @Override
     public void updateTime(int i, Time time) throws SQLException {
-
     }
 
     @Override
-    public void updateTimestamp(int i, Timestamp timestamp) throws SQLException {
-
+    public void updateTimestamp(int i, Timestamp timestamp)
+        throws SQLException {
     }
 
     @Override
-    public void updateAsciiStream(int i, InputStream inputStream, int i1) throws SQLException {
-
+    public void updateAsciiStream(int i, InputStream inputStream, int i1)
+        throws SQLException {
     }
 
     @Override
-    public void updateBinaryStream(int i, InputStream inputStream, int i1) throws SQLException {
-
+    public void updateBinaryStream(int i, InputStream inputStream, int i1)
+        throws SQLException {
     }
 
     @Override
-    public void updateCharacterStream(int i, Reader reader, int i1) throws SQLException {
-
+    public void updateCharacterStream(int i, Reader reader, int i1)
+        throws SQLException {
     }
 
     @Override
     public void updateObject(int i, Object o, int i1) throws SQLException {
-
     }
 
     @Override
     public void updateObject(int i, Object o) throws SQLException {
-
     }
 
     @Override
     public void updateNull(String s) throws SQLException {
-
     }
 
     @Override
     public void updateBoolean(String s, boolean b) throws SQLException {
-
     }
 
     @Override
     public void updateByte(String s, byte b) throws SQLException {
-
     }
 
     @Override
     public void updateShort(String s, short i) throws SQLException {
-
     }
 
     @Override
     public void updateInt(String s, int i) throws SQLException {
-
     }
 
     @Override
     public void updateLong(String s, long l) throws SQLException {
-
     }
 
     @Override
     public void updateFloat(String s, float v) throws SQLException {
-
     }
 
     @Override
     public void updateDouble(String s, double v) throws SQLException {
-
     }
 
     @Override
-    public void updateBigDecimal(String s, BigDecimal bigDecimal) throws SQLException {
-
+    public void updateBigDecimal(String s, BigDecimal bigDecimal)
+        throws SQLException {
     }
 
     @Override
     public void updateString(String s, String s1) throws SQLException {
-
     }
 
     @Override
     public void updateBytes(String s, byte[] bytes) throws SQLException {
-
     }
 
     @Override
     public void updateDate(String s, Date date) throws SQLException {
-
     }
 
     @Override
     public void updateTime(String s, Time time) throws SQLException {
-
     }
 
     @Override
-    public void updateTimestamp(String s, Timestamp timestamp) throws SQLException {
-
+    public void updateTimestamp(String s, Timestamp timestamp)
+        throws SQLException {
     }
 
     @Override
-    public void updateAsciiStream(String s, InputStream inputStream, int i) throws SQLException {
-
+    public void updateAsciiStream(String s, InputStream inputStream, int i)
+        throws SQLException {
     }
 
     @Override
-    public void updateBinaryStream(String s, InputStream inputStream, int i) throws SQLException {
-
+    public void updateBinaryStream(String s, InputStream inputStream, int i)
+        throws SQLException {
     }
 
     @Override
-    public void updateCharacterStream(String s, Reader reader, int i) throws SQLException {
-
+    public void updateCharacterStream(String s, Reader reader, int i)
+        throws SQLException {
     }
 
     @Override
     public void updateObject(String s, Object o, int i) throws SQLException {
-
     }
 
     @Override
     public void updateObject(String s, Object o) throws SQLException {
-
     }
 
     @Override
     public void insertRow() throws SQLException {
-
     }
 
     @Override
     public void updateRow() throws SQLException {
-
     }
 
     @Override
     public void deleteRow() throws SQLException {
-
     }
 
     @Override
     public void refreshRow() throws SQLException {
-
     }
 
     @Override
     public void cancelRowUpdates() throws SQLException {
-
     }
 
     @Override
     public void moveToInsertRow() throws SQLException {
-
     }
 
     @Override
     public void moveToCurrentRow() throws SQLException {
-
     }
 
     @Override
@@ -648,7 +633,8 @@ public class InMemoryResultSet implements ResultSet  {
     }
 
     @Override
-    public Object getObject(int i, Map<String, Class<?>> map) throws SQLException {
+    public Object getObject(int i, Map<String, Class<?>> map)
+        throws SQLException {
         return null;
     }
 
@@ -673,7 +659,8 @@ public class InMemoryResultSet implements ResultSet  {
     }
 
     @Override
-    public Object getObject(String s, Map<String, Class<?>> map) throws SQLException {
+    public Object getObject(String s, Map<String, Class<?>> map)
+        throws SQLException {
         return null;
     }
 
@@ -718,12 +705,14 @@ public class InMemoryResultSet implements ResultSet  {
     }
 
     @Override
-    public Timestamp getTimestamp(int i, Calendar calendar) throws SQLException {
+    public Timestamp getTimestamp(int i, Calendar calendar)
+        throws SQLException {
         return null;
     }
 
     @Override
-    public Timestamp getTimestamp(String s, Calendar calendar) throws SQLException {
+    public Timestamp getTimestamp(String s, Calendar calendar)
+        throws SQLException {
         return null;
     }
 
@@ -739,42 +728,34 @@ public class InMemoryResultSet implements ResultSet  {
 
     @Override
     public void updateRef(int i, Ref ref) throws SQLException {
-
     }
 
     @Override
     public void updateRef(String s, Ref ref) throws SQLException {
-
     }
 
     @Override
     public void updateBlob(int i, Blob blob) throws SQLException {
-
     }
 
     @Override
     public void updateBlob(String s, Blob blob) throws SQLException {
-
     }
 
     @Override
     public void updateClob(int i, Clob clob) throws SQLException {
-
     }
 
     @Override
     public void updateClob(String s, Clob clob) throws SQLException {
-
     }
 
     @Override
     public void updateArray(int i, Array array) throws SQLException {
-
     }
 
     @Override
     public void updateArray(String s, Array array) throws SQLException {
-
     }
 
     @Override
@@ -789,12 +770,10 @@ public class InMemoryResultSet implements ResultSet  {
 
     @Override
     public void updateRowId(int i, RowId rowId) throws SQLException {
-
     }
 
     @Override
     public void updateRowId(String s, RowId rowId) throws SQLException {
-
     }
 
     @Override
@@ -809,22 +788,18 @@ public class InMemoryResultSet implements ResultSet  {
 
     @Override
     public void updateNString(int i, String s) throws SQLException {
-
     }
 
     @Override
     public void updateNString(String s, String s1) throws SQLException {
-
     }
 
     @Override
     public void updateNClob(int i, NClob nClob) throws SQLException {
-
     }
 
     @Override
     public void updateNClob(String s, NClob nClob) throws SQLException {
-
     }
 
     @Override
@@ -849,12 +824,10 @@ public class InMemoryResultSet implements ResultSet  {
 
     @Override
     public void updateSQLXML(int i, SQLXML sqlxml) throws SQLException {
-
     }
 
     @Override
     public void updateSQLXML(String s, SQLXML sqlxml) throws SQLException {
-
     }
 
     @Override
@@ -878,143 +851,136 @@ public class InMemoryResultSet implements ResultSet  {
     }
 
     @Override
-    public void updateNCharacterStream(int i, Reader reader, long l) throws SQLException {
-
+    public void updateNCharacterStream(int i, Reader reader, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateNCharacterStream(String s, Reader reader, long l) throws SQLException {
-
+    public void updateNCharacterStream(String s, Reader reader, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateAsciiStream(int i, InputStream inputStream, long l) throws SQLException {
-
+    public void updateAsciiStream(int i, InputStream inputStream, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateBinaryStream(int i, InputStream inputStream, long l) throws SQLException {
-
+    public void updateBinaryStream(int i, InputStream inputStream, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateCharacterStream(int i, Reader reader, long l) throws SQLException {
-
+    public void updateCharacterStream(int i, Reader reader, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateAsciiStream(String s, InputStream inputStream, long l) throws SQLException {
-
+    public void updateAsciiStream(String s, InputStream inputStream, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateBinaryStream(String s, InputStream inputStream, long l) throws SQLException {
-
+    public void updateBinaryStream(String s, InputStream inputStream, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateCharacterStream(String s, Reader reader, long l) throws SQLException {
-
+    public void updateCharacterStream(String s, Reader reader, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateBlob(int i, InputStream inputStream, long l) throws SQLException {
-
+    public void updateBlob(int i, InputStream inputStream, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateBlob(String s, InputStream inputStream, long l) throws SQLException {
-
+    public void updateBlob(String s, InputStream inputStream, long l)
+        throws SQLException {
     }
 
     @Override
     public void updateClob(int i, Reader reader, long l) throws SQLException {
-
     }
 
     @Override
-    public void updateClob(String s, Reader reader, long l) throws SQLException {
-
+    public void updateClob(String s, Reader reader, long l)
+        throws SQLException {
     }
 
     @Override
     public void updateNClob(int i, Reader reader, long l) throws SQLException {
-
     }
 
     @Override
-    public void updateNClob(String s, Reader reader, long l) throws SQLException {
-
+    public void updateNClob(String s, Reader reader, long l)
+        throws SQLException {
     }
 
     @Override
-    public void updateNCharacterStream(int i, Reader reader) throws SQLException {
-
+    public void updateNCharacterStream(int i, Reader reader)
+        throws SQLException {
     }
 
     @Override
-    public void updateNCharacterStream(String s, Reader reader) throws SQLException {
-
+    public void updateNCharacterStream(String s, Reader reader)
+        throws SQLException {
     }
 
     @Override
-    public void updateAsciiStream(int i, InputStream inputStream) throws SQLException {
-
+    public void updateAsciiStream(int i, InputStream inputStream)
+        throws SQLException {
     }
 
     @Override
-    public void updateBinaryStream(int i, InputStream inputStream) throws SQLException {
-
+    public void updateBinaryStream(int i, InputStream inputStream)
+        throws SQLException {
     }
 
     @Override
-    public void updateCharacterStream(int i, Reader reader) throws SQLException {
-
+    public void updateCharacterStream(int i, Reader reader)
+        throws SQLException {
     }
 
     @Override
-    public void updateAsciiStream(String s, InputStream inputStream) throws SQLException {
-
+    public void updateAsciiStream(String s, InputStream inputStream)
+        throws SQLException {
     }
 
     @Override
-    public void updateBinaryStream(String s, InputStream inputStream) throws SQLException {
-
+    public void updateBinaryStream(String s, InputStream inputStream)
+        throws SQLException {
     }
 
     @Override
-    public void updateCharacterStream(String s, Reader reader) throws SQLException {
-
+    public void updateCharacterStream(String s, Reader reader)
+        throws SQLException {
     }
 
     @Override
     public void updateBlob(int i, InputStream inputStream) throws SQLException {
-
     }
 
     @Override
-    public void updateBlob(String s, InputStream inputStream) throws SQLException {
-
+    public void updateBlob(String s, InputStream inputStream)
+        throws SQLException {
     }
 
     @Override
     public void updateClob(int i, Reader reader) throws SQLException {
-
     }
 
     @Override
     public void updateClob(String s, Reader reader) throws SQLException {
-
     }
 
     @Override
     public void updateNClob(int i, Reader reader) throws SQLException {
-
     }
 
     @Override
     public void updateNClob(String s, Reader reader) throws SQLException {
-
     }
 
     @Override

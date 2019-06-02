@@ -1,7 +1,5 @@
 package com.github.fabriciofx.cactoos.jdbc.cache.meta;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -9,18 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Metadata implements ResultSetMetaData, Function<String, Integer> {
 
     private final Map<String, Integer> columnMapping;
     private final List<Column> columns;
 
-    public Metadata(List<Column> columns){
+    public Metadata(List<Column> columns) {
         this.columnMapping = initColumnMapping(columns);
         this.columns = columns;
     }
 
-    public Metadata(Column ...columns){
+    public Metadata(Column... columns) {
         this(Arrays.asList(columns));
     }
 
@@ -31,8 +30,8 @@ public class Metadata implements ResultSetMetaData, Function<String, Integer> {
 
     private Map<String, Integer> initColumnMapping(List<Column> columns) {
         Map<String, Integer> mapping = new HashMap<>();
-        for(int i = 1; i <= columns.size(); i++){
-            mapping.put(columns.get(i-1).name(), i);
+        for (int i = 1; i <= columns.size(); i++) {
+            mapping.put(columns.get(i - 1).name(), i);
         }
         return mapping;
     }
@@ -77,11 +76,10 @@ public class Metadata implements ResultSetMetaData, Function<String, Integer> {
         return 0;
     }
 
-    public Column columnAt(int i) throws SQLException{
-        if(i < columns.size()){
+    public Column columnAt(int i) throws SQLException {
+        if (i > columns.size()) {
             throw new SQLException("Column index outside bounds");
         }
-
         return columns.get(i - 1);
     }
 

@@ -1,6 +1,5 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -17,10 +16,9 @@ public class ResultSetIterable implements Iterable<Row> {
 
     @Override
     public Iterator<Row> iterator() {
-        if(! used){
+        if (!used) {
             return new ResultSetIterator();
         }
-
         throw new RuntimeException("Iterable already used");
     }
 
@@ -30,14 +28,14 @@ public class ResultSetIterable implements Iterable<Row> {
         private boolean hasNext;
         private RowSupplier supplier;
 
-        ResultSetIterator(){
+        ResultSetIterator() {
             supplier = new RowSupplier(resultSet);
             try {
                 hasNext = resultSet.next();
-            }catch(SQLException ex){
+            } catch (SQLException ex) {
                 hasNext = false;
             }
-            if(hasNext){
+            if (hasNext) {
                 row = supplier.get();
             }
         }
@@ -49,16 +47,16 @@ public class ResultSetIterable implements Iterable<Row> {
 
         @Override
         public Row next() {
-            if(! hasNext){
+            if (!hasNext) {
                 throw new RuntimeException("");
             }
             Row result = row;
             try {
                 hasNext = resultSet.next();
-            }catch(SQLException ex){
+            } catch (SQLException ex) {
                 throw new RuntimeException("");
             }
-            if(hasNext){
+            if (hasNext) {
                 row = supplier.get();
             }
             return result;

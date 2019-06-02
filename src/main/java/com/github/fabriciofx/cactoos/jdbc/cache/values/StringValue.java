@@ -2,7 +2,7 @@ package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
 import java.util.Optional;
 
-public class StringValue implements Value{
+public class StringValue implements Value {
 
     private final String value;
 

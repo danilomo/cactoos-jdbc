@@ -16,7 +16,12 @@ public class BooleanValue implements Value {
     }
 
     @Override
+    public Optional<String> asString() {
+        return Optional.of(String.valueOf(value));
+    }
+
+    @Override
     public Object asObject() {
-        return  Boolean.valueOf(value);
+        return Boolean.valueOf(value);
     }
 }

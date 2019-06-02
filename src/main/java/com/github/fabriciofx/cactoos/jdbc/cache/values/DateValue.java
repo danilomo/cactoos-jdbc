@@ -16,6 +16,11 @@ public class DateValue implements Value {
     }
 
     @Override
+    public Optional<String> asString() {
+        return Optional.of(value.toString());
+    }
+
+    @Override
     public Object asObject() {
         return value;
     }
