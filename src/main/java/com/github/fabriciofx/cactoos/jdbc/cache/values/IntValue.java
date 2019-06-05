@@ -24,4 +24,9 @@ public class IntValue implements Value {
     public Object asObject() {
         return Integer.valueOf(value);
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

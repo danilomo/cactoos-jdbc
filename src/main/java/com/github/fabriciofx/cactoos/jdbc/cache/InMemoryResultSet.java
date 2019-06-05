@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * A read-only ResultSet with underlying data extracted from an iterator.
@@ -58,7 +57,7 @@ public class InMemoryResultSet implements ResultSet {
 
     @Override
     public boolean wasNull() throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     public void checkBounds(int i) throws SQLException {
@@ -155,12 +154,12 @@ public class InMemoryResultSet implements ResultSet {
     @SuppressWarnings("deprecation")
     @Override
     public BigDecimal getBigDecimal(int i, int i1) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public byte[] getBytes(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
@@ -175,120 +174,120 @@ public class InMemoryResultSet implements ResultSet {
 
     @Override
     public Time getTime(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public Timestamp getTimestamp(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public InputStream getAsciiStream(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public InputStream getUnicodeStream(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public InputStream getBinaryStream(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public String getString(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public boolean getBoolean(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public byte getByte(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public short getShort(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public int getInt(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public long getLong(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public float getFloat(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public double getDouble(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public BigDecimal getBigDecimal(String s, int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public byte[] getBytes(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public Date getDate(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public Time getTime(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public Timestamp getTimestamp(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public InputStream getAsciiStream(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public InputStream getUnicodeStream(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public InputStream getBinaryStream(String s) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public SQLWarning getWarnings() throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public void clearWarnings() throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override

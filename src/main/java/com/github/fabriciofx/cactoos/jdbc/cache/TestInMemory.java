@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class TestInMemory {
     public static void main(String[] args) throws SQLException {
@@ -24,7 +27,20 @@ public class TestInMemory {
             ).iterator(),
             metadata
         );
-        printResultSet(rs);
+
+        System.out.println("\n\n\n\n");
+
+        Stream<Row> rows = StreamSupport.stream(
+            new ResultSetIterable(rs).spliterator(),
+            false
+        );
+        System.out.println(
+            rows.collect(
+                Collectors.toMap(
+                    x -> x.cell("key"),
+                    x -> x.cell("value")
+                )
+            ));
     }
 
     public static Row row(int key, String val) {

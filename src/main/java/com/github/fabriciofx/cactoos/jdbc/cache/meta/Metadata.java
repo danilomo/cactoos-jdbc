@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Metadata implements ResultSetMetaData, Function<String, Integer> {
 
@@ -110,12 +109,12 @@ public class Metadata implements ResultSetMetaData, Function<String, Integer> {
 
     @Override
     public String getTableName(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
     public String getCatalogName(int i) throws SQLException {
-        throw new NotImplementedException();
+        throw new RuntimeException("Operation not supported");
     }
 
     @Override
