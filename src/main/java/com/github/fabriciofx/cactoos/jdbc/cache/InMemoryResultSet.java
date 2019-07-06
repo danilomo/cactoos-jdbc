@@ -237,42 +237,95 @@ public class InMemoryResultSet implements ResultSet, Iterable<Row> {
 
     @Override
     public String getString(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asString()
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to String"));
     }
 
     @Override
     public boolean getBoolean(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asBoolean()
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to String"));
     }
 
     @Override
     public byte getByte(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asInt()
+            .filter(val -> val <= Byte.MAX_VALUE)
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to byte"))
+            .byteValue();
     }
 
     @Override
     public short getShort(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asInt()
+            .filter(val -> val <= Short.MAX_VALUE)
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to short"))
+            .shortValue();
     }
 
     @Override
     public int getInt(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asInt()
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to byte"))
+            .byteValue();
+    }
+
+    private void checkColumnExists(final String s) throws SQLException {
+        if(! currentRow.containsKey(s)){
+            throw new SQLException("Column " +
+                s + " does not exist.");
+        }
     }
 
     @Override
     public long getLong(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asInt()
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to long"));
     }
 
     @Override
     public float getFloat(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asDouble()
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to float"))
+            .floatValue();
     }
 
     @Override
     public double getDouble(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asDouble()
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to double"));
     }
 
     @SuppressWarnings("deprecation")
@@ -288,7 +341,12 @@ public class InMemoryResultSet implements ResultSet, Iterable<Row> {
 
     @Override
     public Date getDate(String s) throws SQLException {
-        throw new RuntimeException("Operation not supported");
+        checkColumnExists(s);
+        return currentRow
+            .cell(s)
+            .asDate()
+            .orElseThrow(() -> new SQLException(
+                "Column cannot be converted to Date"));
     }
 
     @Override
