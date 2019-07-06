@@ -19,6 +19,10 @@ public class Row {
         this(Arrays.asList(cells), str -> -1);
     }
 
+    public Row(List<Value> cells) {
+        this(cells, str -> -1);
+    }
+
     public Row withMapping(Function<String, Integer> mapping) {
         return new Row(cells, mapping);
     }

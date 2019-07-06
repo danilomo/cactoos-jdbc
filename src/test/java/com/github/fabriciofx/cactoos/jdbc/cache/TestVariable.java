@@ -4,7 +4,6 @@ import com.github.fabriciofx.cactoos.jdbc.cache.meta.IntColumn;
 import com.github.fabriciofx.cactoos.jdbc.cache.meta.StringColumn;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.StringValue;
-import com.github.fabriciofx.cactoos.jdbc.cache.values.Value;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Variable;
 import java.sql.SQLException;
 import java.util.Arrays;

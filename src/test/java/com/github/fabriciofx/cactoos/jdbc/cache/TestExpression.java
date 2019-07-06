@@ -1,17 +1,9 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
-import com.github.fabriciofx.cactoos.jdbc.cache.values.DoubleValue;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
-import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
-import com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression;
-import com.github.fabriciofx.cactoos.jdbc.cache.values.Value;
 import org.junit.Test;
-
 import static com.github.fabriciofx.cactoos.jdbc.cache.MiscMatchers.expectsException;
-import static com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression.Operator.DIV;
-import static com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression.Operator.MINUS;
-import static com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression.Operator.PLUS;
-import static com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression.Operator.TIMES;
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -107,29 +99,5 @@ public class TestExpression {
             v.evaluate().asDouble().get(),
             is(val)
         );
-    }
-
-    private Expression add(Expression v1, Expression v2) {
-        return new NumericExpression(v1, v2, PLUS);
-    }
-
-    private Expression minus(Expression v1, Expression v2) {
-        return new NumericExpression(v1, v2, MINUS);
-    }
-
-    private Expression times(Expression v1, Expression v2) {
-        return new NumericExpression(v1, v2, TIMES);
-    }
-
-    private Expression div(Expression v1, Expression v2) {
-        return new NumericExpression(v1, v2, DIV);
-    }
-
-    private Expression integer(int i) {
-        return () -> new IntValue(i);
-    }
-
-    private Expression floating(double i) {
-        return () -> new DoubleValue(i);
     }
 }

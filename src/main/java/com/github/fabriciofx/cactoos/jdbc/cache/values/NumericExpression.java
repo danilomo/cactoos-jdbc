@@ -1,5 +1,8 @@
 package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
+import com.github.fabriciofx.cactoos.jdbc.cache.Row;
+import java.util.function.Supplier;
+
 public class NumericExpression implements Expression {
 
     public enum Operator{
@@ -65,4 +68,12 @@ public class NumericExpression implements Expression {
         return 0.0; // unreachable code, hopefully will be fixed with the new switch expression
     }
 
+    @Override
+    public Expression withContext(final Supplier<Row> context) {
+        return new NumericExpression(
+            left.withContext(context),
+            right.withContext(context),
+            this.operator
+        );
+    }
 }
