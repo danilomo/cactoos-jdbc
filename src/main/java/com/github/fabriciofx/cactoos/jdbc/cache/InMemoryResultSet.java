@@ -43,10 +43,11 @@ public class InMemoryResultSet implements ResultSet, Iterable<Row> {
     }
 
     public InMemoryResultSet(Row... rows){
-        this(
-            Arrays.asList(rows),
-            new Metadata()
-        );
+        this(Arrays.asList(rows));
+    }
+
+    public InMemoryResultSet(Iterable<Row> rows){
+        this(rows,new Metadata());
     }
 
     public InMemoryResultSet withMetadata(Metadata metadata){
