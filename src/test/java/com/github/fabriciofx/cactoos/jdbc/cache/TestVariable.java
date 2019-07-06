@@ -50,7 +50,7 @@ public class TestVariable {
         setupTest();
         Iterator<Row> iterator = resultSet.iterator();
         Supplier<Row> supplier = () -> iterator.next();
-        Value countryVal = new Variable(
+        Variable countryVal = new Variable(
             "country",
             supplier
         );
@@ -58,7 +58,7 @@ public class TestVariable {
             String country = resultSet.getString(2);
             assertThat(
                 country,
-                is(countryVal.asString().get())
+                is(countryVal.get().asString().get())
             );
         }
     }
@@ -68,7 +68,7 @@ public class TestVariable {
         setupTest();
         Iterator<Row> iterator = resultSet.iterator();
         Supplier<Row> supplier = () -> iterator.next();
-        Value capitalVal = new Variable(
+        Variable capitalVal = new Variable(
             "capital",
             supplier
         );
@@ -76,7 +76,7 @@ public class TestVariable {
             String capital = resultSet.getString(3);
             assertThat(
                 capital,
-                is(capitalVal.asString().get())
+                is(capitalVal.get().asString().get())
             );
         }
     }
@@ -86,7 +86,7 @@ public class TestVariable {
         setupTest();
         Iterator<Row> iterator = resultSet.iterator();
         Supplier<Row> supplier = () -> iterator.next();
-        Value keyVal = new Variable(
+        Variable keyVal = new Variable(
             "key",
             supplier
         );
@@ -94,7 +94,7 @@ public class TestVariable {
             int key = resultSet.getInt(1);
             assertThat(
                 key,
-                is(keyVal.asInt().get())
+                is(keyVal.get().asInt().get())
             );
         }
     }

@@ -3,7 +3,7 @@ package com.github.fabriciofx.cactoos.jdbc.cache.values;
 import com.github.fabriciofx.cactoos.jdbc.cache.Row;
 import java.util.function.Supplier;
 
-public class Variable extends ValueDecorator {
+public class Variable implements Expression {
     private final String name;
     private final Supplier<Row> row;
 
@@ -16,7 +16,7 @@ public class Variable extends ValueDecorator {
     }
 
     @Override
-    public Value value() {
+    public Value get() {
         return row.get().cell(name);
     }
 }

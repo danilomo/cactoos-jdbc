@@ -1,8 +1,6 @@
 package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
-import java.util.Optional;
-
-public class NumericExpression implements Value{
+public class NumericExpression implements Expression {
 
     public enum Operator{
         PLUS,
@@ -12,13 +10,13 @@ public class NumericExpression implements Value{
         MOD
     }
 
-    private final Value left;
-    private final Value right;
+    private final Expression left;
+    private final Expression right;
     private final Operator operator;
 
     public NumericExpression(
-        final Value left,
-        final Value right,
+        final Expression left,
+        final Expression right,
         final Operator operator
     ) {
         this.left = left;
@@ -26,9 +24,10 @@ public class NumericExpression implements Value{
         this.operator = operator;
     }
 
-    private Value evaluate(){
-        Object l = left.asObject();
-        Object r = right.asObject();
+    @Override
+    public Value get(){
+        Object l = left.get().asObject();
+        Object r = right.get().asObject();
 
         if(l instanceof Integer && r instanceof Integer){
             return new IntValue(
@@ -36,8 +35,8 @@ public class NumericExpression implements Value{
             );
         }
 
-        double ld = left.asDouble().get();
-        double rd = right.asDouble().get();
+        double ld = left.get().asDouble().get();
+        double rd = right.get().asDouble().get();
 
         return new DoubleValue(evaluateExpr(ld,rd));
     }
@@ -66,23 +65,4 @@ public class NumericExpression implements Value{
         return 0.0; // unreachable code, hopefully will be fixed with the new switch expression
     }
 
-    @Override
-    public Object asObject() {
-        return evaluate().asObject();
-    }
-
-    @Override
-    public Optional<Integer> asInt() {
-        return evaluate().asInt();
-    }
-
-    @Override
-    public Optional<Double> asDouble() {
-        return evaluate().asDouble();
-    }
-
-    @Override
-    public Optional<String> asString() {
-        return evaluate().asString();
-    }
 }

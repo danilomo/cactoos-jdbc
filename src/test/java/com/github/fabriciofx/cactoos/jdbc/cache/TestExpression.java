@@ -1,6 +1,7 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
 import com.github.fabriciofx.cactoos.jdbc.cache.values.DoubleValue;
+import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Value;
@@ -67,7 +68,7 @@ public class TestExpression {
     @Test
     public void testDivisionRaisesError() {
         expectsException(
-            () -> div(integer(10), integer(0)).asObject(),
+            () -> div(integer(10), integer(0)).evaluate().asObject(),
             RuntimeException.class
         );
     }
@@ -94,41 +95,41 @@ public class TestExpression {
         );
     }
 
-    private void assertExpression(Value v, int val) {
+    private void assertExpression(Expression v, int val) {
         assertThat(
-            v.asInt().get(),
+            v.evaluate().asInt().get(),
             is(val)
         );
     }
 
-    private void assertExpression(Value v, double val) {
+    private void assertExpression(Expression v, double val) {
         assertThat(
-            v.asDouble().get(),
+            v.evaluate().asDouble().get(),
             is(val)
         );
     }
 
-    private Value add(Value v1, Value v2) {
+    private Expression add(Expression v1, Expression v2) {
         return new NumericExpression(v1, v2, PLUS);
     }
 
-    private Value minus(Value v1, Value v2) {
+    private Expression minus(Expression v1, Expression v2) {
         return new NumericExpression(v1, v2, MINUS);
     }
 
-    private Value times(Value v1, Value v2) {
+    private Expression times(Expression v1, Expression v2) {
         return new NumericExpression(v1, v2, TIMES);
     }
 
-    private Value div(Value v1, Value v2) {
+    private Expression div(Expression v1, Expression v2) {
         return new NumericExpression(v1, v2, DIV);
     }
 
-    private Value integer(int i) {
-        return new IntValue(i);
+    private Expression integer(int i) {
+        return () -> new IntValue(i);
     }
 
-    private Value floating(double i) {
-        return new DoubleValue(i);
+    private Expression floating(double i) {
+        return () -> new DoubleValue(i);
     }
 }
