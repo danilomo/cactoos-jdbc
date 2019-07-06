@@ -29,8 +29,8 @@ import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.StringValue;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.concurrent.Callable;
 import org.junit.Test;
+import static com.github.fabriciofx.cactoos.jdbc.cache.MiscMatchers.expectsException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -126,17 +126,5 @@ public class TestInMemoryResultSet {
             () -> resultSet.getLong("non_existing"),
             SQLException.class
         );
-    }
-
-    private static <T extends Exception> void expectsException(Callable<?> callable,
-        Class<T> clazz) {
-        try {
-            callable.call();
-        } catch (Exception ex) {
-            assertThat(
-                ex.getClass(),
-                is((Object) clazz)
-            );
-        }
     }
 }

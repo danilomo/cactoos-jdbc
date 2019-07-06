@@ -16,6 +16,11 @@ public class IntValue implements Value {
     }
 
     @Override
+    public Optional<Double> asDouble(){
+        return Optional.of((double) value);
+    }
+
+    @Override
     public Optional<String> asString() {
         return Optional.of(String.valueOf(value));
     }
