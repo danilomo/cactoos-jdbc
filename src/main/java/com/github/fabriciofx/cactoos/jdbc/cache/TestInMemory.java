@@ -24,7 +24,7 @@ public class TestInMemory {
                 row(1, "pera").withMapping(metadata),
                 row(2, "uva").withMapping(metadata),
                 row(2, "salada mista").withMapping(metadata)
-            ).iterator(),
+            ),
             metadata
         );
 

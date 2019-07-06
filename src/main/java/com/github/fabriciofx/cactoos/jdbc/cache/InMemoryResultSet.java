@@ -1,5 +1,6 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
+import com.github.fabriciofx.cactoos.jdbc.cache.meta.Column;
 import com.github.fabriciofx.cactoos.jdbc.cache.meta.Metadata;
 import java.io.InputStream;
 import java.io.Reader;
@@ -20,6 +21,7 @@ import java.sql.SQLXML;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,23 +29,58 @@ import java.util.Map;
 /**
  * A read-only ResultSet with underlying data extracted from an iterator.
  */
-public class InMemoryResultSet implements ResultSet {
+public class InMemoryResultSet implements ResultSet, Iterable<Row> {
 
     private final Metadata metadata;
-    private long index;
     private Row currentRow;
+    private Iterable<Row> rows;
     private Iterator<Row> rowsIterator;
 
-    public InMemoryResultSet(Iterator<Row> rowsIterator, Metadata metadata) {
-        this.rowsIterator = rowsIterator;
+    public InMemoryResultSet(Iterable<Row> rows, Metadata metadata) {
+        this.rows = rows;
         this.metadata = metadata;
-        this.index = 0;
+        this.rowsIterator = rows.iterator();
+    }
+
+    public InMemoryResultSet(Row... rows){
+        this(
+            Arrays.asList(rows),
+            new Metadata()
+        );
+    }
+
+    public InMemoryResultSet withMetadata(Metadata metadata){
+        return new InMemoryResultSet(
+            this.rows,
+            metadata
+        );
+    }
+
+    public InMemoryResultSet withMetadata(Column... columns){
+        return withMetadata(new Metadata(columns));
+    }
+
+    @Override
+    public Iterator<Row> iterator() {
+        final Iterator<Row> rowsIterator = rows.iterator();
+        return new Iterator<Row>() {
+            @Override
+            public boolean hasNext() {
+                return rowsIterator.hasNext();
+            }
+
+            @Override
+            public Row next() {
+                return rowsIterator
+                    .next()
+                    .withMapping(metadata);
+            }
+        };
     }
 
     @Override
     public boolean next() {
         if (rowsIterator.hasNext()) {
-            index++;
             currentRow = rowsIterator.next();
             return true;
         }
