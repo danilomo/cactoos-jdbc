@@ -42,5 +42,9 @@ public interface Value {
         return Optional.empty();
     }
 
+    default boolean isNumeric(){
+        return false;
+    }
+
     Object asObject();
 }

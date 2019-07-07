@@ -2,7 +2,7 @@ package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
 import java.util.Optional;
 
-public class IntValue implements Value {
+public class IntValue implements NumericValue {
 
     private final int value;
 

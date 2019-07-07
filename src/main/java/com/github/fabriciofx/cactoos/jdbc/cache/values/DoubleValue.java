@@ -2,7 +2,7 @@ package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
 import java.util.Optional;
 
-public class DoubleValue implements Value {
+public class DoubleValue implements NumericValue {
     private final double value;
 
     public DoubleValue(double value) {
