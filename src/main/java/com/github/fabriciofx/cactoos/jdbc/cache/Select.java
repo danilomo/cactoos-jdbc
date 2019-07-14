@@ -1,52 +1,74 @@
-package com.github.fabriciofx.cactoos.jdbc.cache.algebra;
+package com.github.fabriciofx.cactoos.jdbc.cache;
 
-import com.github.fabriciofx.cactoos.jdbc.cache.ResultSetIterable;
-import com.github.fabriciofx.cactoos.jdbc.cache.Row;
+import com.github.fabriciofx.cactoos.jdbc.cache.values.BooleanExpression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Value;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class Projection implements Iterable<Row>{
+public class Select implements Iterable<Row>{
 
     private final Iterable<Row> rows;
     private final List<Expression> expressions;
+    private final BooleanExpression filter;
 
-    public Projection(
+    public Select(
         final Iterable<Row> rows,
-        final List<Expression> expressions
+        final List<Expression> expressions,
+        final BooleanExpression filter
     ) {
         this.rows = rows;
         this.expressions = expressions;
+        this.filter = filter;
+    }
+
+    public Select(
+        final Iterable<Row> rows,
+        final List<Expression> expressions
+    ) {
+        this(
+          rows,
+          expressions,
+          () -> true
+        );
     }
 
     @Override
     public Iterator<Row> iterator() {
-        return new ProjectionIterator();
+        return new QueryIterator();
     }
 
-    private class ProjectionIterator implements
+    private class QueryIterator implements
         Iterator<Row>, Supplier<Row> {
 
         private final Iterator<Row> iterator;
         private Row currentRow;
         private final List<Expression> columns;
+        private final BooleanExpression filterExpression;
 
-        private ProjectionIterator(){
+        private QueryIterator(){
             iterator = rows.iterator();
             columns = expressions
                 .stream()
                 .map(exp -> exp.withContext(this))
                 .collect(Collectors.toList());
+            filterExpression = filter.withContext(this);
         }
 
         @Override
         public boolean hasNext() {
-            return iterator.hasNext();
+            if(iterator.hasNext()){
+                return false;
+            }
+            currentRow = iterator.next();
+            if(!filterExpression.evaluate()){
+                return hasNext();
+            }
+
+            return true;
         }
 
         @Override

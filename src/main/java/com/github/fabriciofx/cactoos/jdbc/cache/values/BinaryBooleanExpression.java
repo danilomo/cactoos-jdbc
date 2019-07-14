@@ -1,5 +1,8 @@
 package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
+import com.github.fabriciofx.cactoos.jdbc.cache.Row;
+import java.util.function.Supplier;
+
 public class BinaryBooleanExpression implements BooleanExpression{
     private final BooleanExpression left;
     private final BooleanExpression right;
@@ -37,5 +40,14 @@ public class BinaryBooleanExpression implements BooleanExpression{
         }
 
         return false;
+    }
+
+    @Override
+    public BooleanExpression withContext(final Supplier<Row> context) {
+        return new BinaryBooleanExpression(
+          left.withContext(context),
+          right.withContext(context),
+          operator
+        );
     }
 }

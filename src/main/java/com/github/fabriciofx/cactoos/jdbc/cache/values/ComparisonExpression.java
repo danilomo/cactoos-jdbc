@@ -1,6 +1,8 @@
 package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
+import com.github.fabriciofx.cactoos.jdbc.cache.Row;
 import java.util.Arrays;
+import java.util.function.Supplier;
 
 public class ComparisonExpression implements BooleanExpression {
 
@@ -77,5 +79,14 @@ public class ComparisonExpression implements BooleanExpression {
         GT,
         LE,
         GE
+    }
+
+    @Override
+    public BooleanExpression withContext(final Supplier<Row> context) {
+        return new ComparisonExpression(
+            left.withContext(context),
+            right.withContext(context),
+            operator
+        );
     }
 }

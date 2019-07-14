@@ -1,6 +1,5 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
-import com.github.fabriciofx.cactoos.jdbc.cache.algebra.Projection;
 import com.github.fabriciofx.cactoos.jdbc.cache.meta.IntColumn;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
@@ -10,9 +9,8 @@ import com.github.fabriciofx.cactoos.jdbc.cache.values.Variable;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TestProjection {
+public class TestSelect {
 
     private InMemoryResultSet resultSet;
 
@@ -54,7 +52,7 @@ public class TestProjection {
             exp2,
             exp3
         );
-        Projection pj = new Projection(
+        Select pj = new Select(
             resultSet,
             expressions
         );
