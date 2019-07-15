@@ -1,9 +1,11 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
 import com.github.fabriciofx.cactoos.jdbc.cache.meta.IntColumn;
+import com.github.fabriciofx.cactoos.jdbc.cache.values.BooleanExpression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Variable;
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.*;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -79,14 +81,17 @@ public class TestSelect {
             exp2,
             exp3
         );
+        BooleanExpression filter = eq(
+            variable("column1"),
+            integer(3)
+        );
         Select select = new Select(
             resultSet,
-            expressions
+            expressions,
+            filter
         );
-        Iterator<Row> it = select.iterator();
-        System.out.println(it.next());
-        System.out.println(it.next());
-        System.out.println(it.next());
-        System.out.println(it.next());
+        for (Row row : select) {
+            System.out.println(row);
+        }
     }
 }

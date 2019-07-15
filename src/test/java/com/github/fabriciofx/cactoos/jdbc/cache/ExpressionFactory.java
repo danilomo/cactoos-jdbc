@@ -7,6 +7,7 @@ import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.StringValue;
+import com.github.fabriciofx.cactoos.jdbc.cache.values.Variable;
 
 import static com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression.Operator.DIV;
 import static com.github.fabriciofx.cactoos.jdbc.cache.values.NumericExpression.Operator.MINUS;
@@ -40,6 +41,10 @@ public class ExpressionFactory {
 
     static Expression string(String str) {
         return () -> new StringValue(str);
+    }
+
+    static Expression variable(String name) {
+        return new Variable(name);
     }
 
     static BooleanExpression eq(Expression v1, Expression v2) {
