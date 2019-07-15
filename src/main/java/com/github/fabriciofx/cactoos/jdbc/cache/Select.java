@@ -6,6 +6,7 @@ import com.github.fabriciofx.cactoos.jdbc.cache.values.Value;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -45,9 +46,11 @@ public class Select implements Iterable<Row>{
         Iterator<Row>, Supplier<Row> {
 
         private final Iterator<Row> iterator;
-        private Row currentRow;
         private final List<Expression> columns;
         private final BooleanExpression filterExpression;
+        private Row currentRow;
+        private boolean hasNextWasCalled;
+        private boolean hasNext;
 
         private QueryIterator(){
             iterator = rows.iterator();
@@ -56,24 +59,35 @@ public class Select implements Iterable<Row>{
                 .map(exp -> exp.withContext(this))
                 .collect(Collectors.toList());
             filterExpression = filter.withContext(this);
+            hasNextWasCalled = false;
+            hasNext = true;
         }
 
         @Override
         public boolean hasNext() {
-            if(iterator.hasNext()){
+            if(hasNextWasCalled){
+                return hasNext;
+            }
+            hasNextWasCalled = true;
+            if(!iterator.hasNext()){
+                hasNext = false;
                 return false;
             }
             currentRow = iterator.next();
             if(!filterExpression.evaluate()){
+                hasNextWasCalled = false;
                 return hasNext();
             }
-
+            hasNext = true;
             return true;
         }
 
         @Override
         public Row next() {
-            currentRow = iterator.next();
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+            hasNextWasCalled = false;
             List<Value> list = new ArrayList<>();
             for(Expression exp: columns){
                 list.add(exp.evaluate());

@@ -4,7 +4,7 @@ import com.github.fabriciofx.cactoos.jdbc.cache.meta.IntColumn;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
 import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.*;
-
+import java.util.Iterator;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Variable;
 import java.util.Arrays;
 import java.util.List;
@@ -59,5 +59,34 @@ public class TestSelect {
         for(Row row: pj){
             System.out.println(row);
         }
+    }
+
+    @Test
+    public void testSelection(){
+        setupTest();
+        Expression exp1 = times(
+            new Variable("column1"),
+            () -> new IntValue(10)
+        );
+        Expression exp2 = times(
+            new Variable("column1"),
+            new Variable("column2")
+        );
+        Expression exp3 = new Variable("column3");
+        List<Expression> expressions = Arrays.asList(
+            exp1,
+            exp2,
+            exp3
+        );
+        Select select = new Select(
+            resultSet,
+            expressions
+        );
+
+        Iterator<Row> it = select.iterator();
+        System.out.println(it.next());
+        System.out.println(it.next());
+        System.out.println(it.next());
+        System.out.println(it.next());
     }
 }
