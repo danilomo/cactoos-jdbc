@@ -1,7 +1,6 @@
 package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
 import com.github.fabriciofx.cactoos.jdbc.cache.Row;
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class ComparisonExpression implements BooleanExpression {
@@ -22,11 +21,11 @@ public class ComparisonExpression implements BooleanExpression {
 
     @Override
     public Boolean get() {
-        switch (operator){
+        switch (operator) {
             case EQ:
                 return equalityTest();
             case NEQ:
-                return ! equalityTest();
+                return !equalityTest();
             default:
                 return comparisonTest();
         }
@@ -35,25 +34,23 @@ public class ComparisonExpression implements BooleanExpression {
     private boolean comparisonTest() {
         Value leftVal = left.evaluate();
         Value rightVal = right.evaluate();
-        if(leftVal.isNumeric() && rightVal.isNumeric()){
+        if (leftVal.isNumeric() && rightVal.isNumeric()) {
             return compareOperands(
                 leftVal.asDouble().get(),
                 rightVal.asDouble().get()
             );
         }
-
-        if(leftVal instanceof StringValue && rightVal instanceof StringValue){
+        if (leftVal instanceof StringValue && rightVal instanceof StringValue) {
             return compareOperands(
                 leftVal.asString().get(),
                 rightVal.asString().get()
             );
         }
-
         throw new RuntimeException("Operands aren't comparable.");
     }
 
-    private <T extends Comparable<T>> boolean compareOperands(T l, T r){
-        switch(operator){
+    private <T extends Comparable<T>> boolean compareOperands(T l, T r) {
+        switch (operator) {
             case LT:
                 return l.compareTo(r) < 0;
             case GT:
@@ -71,16 +68,6 @@ public class ComparisonExpression implements BooleanExpression {
         return left.evaluate().asObject()
             .equals(right.evaluate().asObject());
     }
-
-    public enum Operator{
-        EQ,
-        NEQ,
-        LT,
-        GT,
-        LE,
-        GE
-    }
-
     @Override
     public BooleanExpression withContext(final Supplier<Row> context) {
         return new ComparisonExpression(
@@ -88,5 +75,14 @@ public class ComparisonExpression implements BooleanExpression {
             right.withContext(context),
             operator
         );
+    }
+
+    public enum Operator {
+        EQ,
+        NEQ,
+        LT,
+        GT,
+        LE,
+        GE
     }
 }

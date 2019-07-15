@@ -19,7 +19,8 @@ public interface Value {
         } else if (clz == Date.class) {
             return new DateValue((Date) obj);
         }
-        throw new InvalidParameterException(clz + " cannot be wrapped to Value");
+        throw new InvalidParameterException(clz + " cannot be wrapped to " +
+            "Value");
     }
 
     default Optional<Integer> asInt() {
@@ -42,7 +43,7 @@ public interface Value {
         return Optional.empty();
     }
 
-    default boolean isNumeric(){
+    default boolean isNumeric() {
         return false;
     }
 

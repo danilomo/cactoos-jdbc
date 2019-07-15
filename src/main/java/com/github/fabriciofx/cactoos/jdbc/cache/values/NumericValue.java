@@ -6,5 +6,4 @@ public interface NumericValue extends Value {
     default boolean isNumeric() {
         return true;
     }
-
 }

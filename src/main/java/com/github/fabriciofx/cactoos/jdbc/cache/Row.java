@@ -48,7 +48,7 @@ public class Row {
         return i <= 0 || i > cells.size();
     }
 
-    public boolean containsKey(String column){
+    public boolean containsKey(String column) {
         int i = mapping.apply(column);
         return !outOfBounds(i);
     }

@@ -2,8 +2,14 @@ package com.github.fabriciofx.cactoos.jdbc.cache;
 
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
 import org.junit.Test;
+
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.add;
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.div;
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.floating;
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.integer;
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.minus;
+import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.times;
 import static com.github.fabriciofx.cactoos.jdbc.cache.MiscMatchers.expectsException;
-import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

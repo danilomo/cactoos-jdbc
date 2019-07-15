@@ -12,21 +12,21 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.junit.Test;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 
 public class TestVariable {
 
     private InMemoryResultSet resultSet;
 
-    private void setupTest(){
+    private void setupTest() {
         Iterable<Row> iterable = () -> Stream.of(
             Arrays.asList("1", "Canada", "Ottawa"),
             Arrays.asList("2", "Brazil", "Brasilia"),
             Arrays.asList("3", "Germany", "Berlin"),
             Arrays.asList("4", "Japan", "Tokyo")
-        ).map( this::listToRow ).iterator();
-
+        ).map(this::listToRow).iterator();
         resultSet = new InMemoryResultSet(
             iterable
         ).withMetadata(
@@ -36,7 +36,7 @@ public class TestVariable {
         );
     }
 
-    private Row listToRow(List<String> list){
+    private Row listToRow(List<String> list) {
         return new Row(
             new IntValue(Integer.parseInt(list.get(0))),
             new StringValue(list.get(1)),
@@ -53,7 +53,7 @@ public class TestVariable {
             "country",
             supplier
         );
-        while(resultSet.next()){
+        while (resultSet.next()) {
             String country = resultSet.getString(2);
             assertThat(
                 country,
@@ -71,7 +71,7 @@ public class TestVariable {
             "capital",
             supplier
         );
-        while(resultSet.next()){
+        while (resultSet.next()) {
             String capital = resultSet.getString(3);
             assertThat(
                 capital,
@@ -89,7 +89,7 @@ public class TestVariable {
             "key",
             supplier
         );
-        while(resultSet.next()){
+        while (resultSet.next()) {
             int key = resultSet.getInt(1);
             assertThat(
                 key,

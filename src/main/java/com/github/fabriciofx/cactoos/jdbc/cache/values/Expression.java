@@ -4,11 +4,11 @@ import com.github.fabriciofx.cactoos.jdbc.cache.Row;
 import java.util.function.Supplier;
 
 public interface Expression extends Supplier<Value> {
-    default Value evaluate(){
+    default Value evaluate() {
         return get();
     }
 
-    default Expression withContext( Supplier<Row> context ){
+    default Expression withContext(Supplier<Row> context) {
         return this;
     }
 }

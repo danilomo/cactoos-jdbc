@@ -16,7 +16,7 @@ public class IntValue implements NumericValue {
     }
 
     @Override
-    public Optional<Double> asDouble(){
+    public Optional<Double> asDouble() {
         return Optional.of((double) value);
     }
 

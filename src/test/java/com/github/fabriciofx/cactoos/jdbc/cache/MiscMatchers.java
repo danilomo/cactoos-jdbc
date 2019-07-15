@@ -1,8 +1,9 @@
 package com.github.fabriciofx.cactoos.jdbc.cache;
 
 import java.util.concurrent.Callable;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 
 class MiscMatchers {
     static <T extends Exception> void expectsException(

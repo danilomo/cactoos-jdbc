@@ -15,7 +15,7 @@ public class Variable implements Expression {
         this.row = row;
     }
 
-    public Variable(String name){
+    public Variable(String name) {
         this(name, () -> new Row());
     }
 

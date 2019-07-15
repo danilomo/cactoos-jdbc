@@ -30,16 +30,17 @@ import com.github.fabriciofx.cactoos.jdbc.cache.values.StringValue;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.junit.Test;
+
 import static com.github.fabriciofx.cactoos.jdbc.cache.MiscMatchers.expectsException;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 
 public class TestInMemoryResultSet {
 
     private InMemoryResultSet resultSet;
     private Object[][] data;
 
-    private void setupTest(){
+    private void setupTest() {
         resultSet = new InMemoryResultSet(
             pair(1, "apple"),
             pair(2, "orange"),
@@ -57,14 +58,14 @@ public class TestInMemoryResultSet {
         };
     }
 
-    private Row pair(Integer key, String value){
+    private Row pair(Integer key, String value) {
         return new Row(
             new IntValue(key),
             new StringValue(value)
         );
     }
 
-    private void assertPairAgainstData(int index, Integer key, String value){
+    private void assertPairAgainstData(int index, Integer key, String value) {
         assertThat(
             key,
             is(data[index][0])
@@ -76,10 +77,10 @@ public class TestInMemoryResultSet {
     }
 
     @Test
-    public void testIterator(){
+    public void testIterator() {
         setupTest();
         int index = 0;
-        for(Row row: resultSet){
+        for (Row row : resultSet) {
             Integer key = row
                 .cell("key").asInt().get();
             String value = row
@@ -94,7 +95,7 @@ public class TestInMemoryResultSet {
         setupTest();
         ResultSet rs = resultSet;
         int i = 0;
-        while(rs.next()){
+        while (rs.next()) {
             Integer key = rs.getInt(1);
             String value = rs.getString(2);
             assertPairAgainstData(i, key, value);
@@ -103,7 +104,7 @@ public class TestInMemoryResultSet {
     }
 
     @Test
-    public void testCaptureMetadataErrors(){
+    public void testCaptureMetadataErrors() {
         setupTest();
         resultSet.next();
         expectsException(

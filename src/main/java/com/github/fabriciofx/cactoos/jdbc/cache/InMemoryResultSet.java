@@ -42,22 +42,22 @@ public class InMemoryResultSet implements ResultSet, Iterable<Row> {
         this.rowsIterator = rows.iterator();
     }
 
-    public InMemoryResultSet(Row... rows){
+    public InMemoryResultSet(Row... rows) {
         this(Arrays.asList(rows));
     }
 
-    public InMemoryResultSet(Iterable<Row> rows){
-        this(rows,new Metadata());
+    public InMemoryResultSet(Iterable<Row> rows) {
+        this(rows, new Metadata());
     }
 
-    public InMemoryResultSet withMetadata(Metadata metadata){
+    public InMemoryResultSet withMetadata(Metadata metadata) {
         return new InMemoryResultSet(
             this.rows,
             metadata
         );
     }
 
-    public InMemoryResultSet withMetadata(Column... columns){
+    public InMemoryResultSet withMetadata(Column... columns) {
         return withMetadata(new Metadata(columns));
     }
 
@@ -292,7 +292,7 @@ public class InMemoryResultSet implements ResultSet, Iterable<Row> {
     }
 
     private void checkColumnExists(final String s) throws SQLException {
-        if(! currentRow.containsKey(s)){
+        if (!currentRow.containsKey(s)) {
             throw new SQLException("Column " +
                 s + " does not exist.");
         }

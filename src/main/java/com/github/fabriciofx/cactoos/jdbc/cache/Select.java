@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class Select implements Iterable<Row>{
+public class Select implements Iterable<Row> {
 
     private final Iterable<Row> rows;
     private final List<Expression> expressions;
@@ -31,9 +31,9 @@ public class Select implements Iterable<Row>{
         final List<Expression> expressions
     ) {
         this(
-          rows,
-          expressions,
-          () -> true
+            rows,
+            expressions,
+            () -> true
         );
     }
 
@@ -52,7 +52,7 @@ public class Select implements Iterable<Row>{
         private boolean hasNextWasCalled;
         private boolean hasNext;
 
-        private QueryIterator(){
+        private QueryIterator() {
             iterator = rows.iterator();
             columns = expressions
                 .stream()
@@ -65,16 +65,16 @@ public class Select implements Iterable<Row>{
 
         @Override
         public boolean hasNext() {
-            if(hasNextWasCalled){
+            if (hasNextWasCalled) {
                 return hasNext;
             }
             hasNextWasCalled = true;
-            if(!iterator.hasNext()){
+            if (!iterator.hasNext()) {
                 hasNext = false;
                 return false;
             }
             currentRow = iterator.next();
-            if(!filterExpression.evaluate()){
+            if (!filterExpression.evaluate()) {
                 hasNextWasCalled = false;
                 return hasNext();
             }
@@ -84,12 +84,12 @@ public class Select implements Iterable<Row>{
 
         @Override
         public Row next() {
-            if(!hasNext()){
+            if (!hasNext()) {
                 throw new NoSuchElementException();
             }
             hasNextWasCalled = false;
             List<Value> list = new ArrayList<>();
-            for(Expression exp: columns){
+            for (Expression exp : columns) {
                 list.add(exp.evaluate());
             }
             return new Row(list);
