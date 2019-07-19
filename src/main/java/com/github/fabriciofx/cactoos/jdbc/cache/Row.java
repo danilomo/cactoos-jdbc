@@ -4,6 +4,7 @@ import com.github.fabriciofx.cactoos.jdbc.cache.values.Value;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class Row {
@@ -56,5 +57,17 @@ public class Row {
     @Override
     public String toString() {
         return cells.toString();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Row row = (Row) o;
+        return Objects.equals(cells, row.cells);
+    }
+    @Override
+    public int hashCode() {
+        return cells.hashCode();
     }
 }

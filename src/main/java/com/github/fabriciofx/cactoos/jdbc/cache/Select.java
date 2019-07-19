@@ -100,4 +100,10 @@ public class Select implements Iterable<Row> {
             return currentRow;
         }
     }
+
+    public List<Row> asList(){
+        List<Row> list = new ArrayList<>();
+        iterator().forEachRemaining(list::add);
+        return list;
+    }
 }

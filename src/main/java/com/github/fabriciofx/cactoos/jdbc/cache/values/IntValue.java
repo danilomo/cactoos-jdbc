@@ -1,5 +1,6 @@
 package com.github.fabriciofx.cactoos.jdbc.cache.values;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class IntValue implements NumericValue {
@@ -33,5 +34,17 @@ public class IntValue implements NumericValue {
     @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final IntValue intValue = (IntValue) o;
+        return value == intValue.value;
+    }
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(value).hashCode();
     }
 }

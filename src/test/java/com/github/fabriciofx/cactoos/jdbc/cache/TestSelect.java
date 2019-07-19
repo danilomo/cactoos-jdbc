@@ -7,9 +7,10 @@ import com.github.fabriciofx.cactoos.jdbc.cache.values.IntValue;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Variable;
 import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.*;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import static com.github.fabriciofx.cactoos.jdbc.cache.ExpressionFactory.times;
 
@@ -59,9 +60,15 @@ public class TestSelect {
             resultSet,
             expressions
         );
-        for (Row row : pj) {
-            System.out.println(row);
-        }
+        assertThat(
+            pj.asList(),
+            is(Arrays.asList(
+                row(10, 3, 7),
+                row(20, 8, 6),
+                row(30, 21, 9),
+                row(40, 24, 8)
+            ))
+        );
     }
 
     @Test
@@ -90,8 +97,11 @@ public class TestSelect {
             expressions,
             filter
         );
-        for (Row row : select) {
-            System.out.println(row);
-        }
+        assertThat(
+            select.asList(),
+            is(Arrays.asList(
+                row(30, 21, 9)
+            ))
+        );
     }
 }
