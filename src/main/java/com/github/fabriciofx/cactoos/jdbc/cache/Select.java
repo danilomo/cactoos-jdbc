@@ -27,6 +27,15 @@ public class Select implements Iterable<Row> {
     }
 
     public Select(
+        final List<Expression> expressions,
+        final BooleanExpression filter
+    ) {
+        this.rows = new ArrayList<>();
+        this.expressions = expressions;
+        this.filter = filter;
+    }
+
+    public Select(
         final Iterable<Row> rows,
         final List<Expression> expressions
     ) {
@@ -34,6 +43,14 @@ public class Select implements Iterable<Row> {
             rows,
             expressions,
             () -> true
+        );
+    }
+
+    public Select withRows(Iterable<Row> rows){
+        return new Select(
+            rows,
+            this.expressions,
+            this.filter
         );
     }
 

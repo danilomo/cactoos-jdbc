@@ -1,5 +1,8 @@
-package com.github.fabriciofx.cactoos.jdbc.cache;
+package com.github.fabriciofx.cactoos.jdbc.cache.parser;
 
+import com.github.fabriciofx.cactoos.jdbc.cache.InMemoryResultSet;
+import com.github.fabriciofx.cactoos.jdbc.cache.Row;
+import com.github.fabriciofx.cactoos.jdbc.cache.Select;
 import com.github.fabriciofx.cactoos.jdbc.cache.meta.IntColumn;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.BooleanExpression;
 import com.github.fabriciofx.cactoos.jdbc.cache.values.Expression;
@@ -12,7 +15,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class TestSelect {
+public class TestParser {
 
     private InMemoryResultSet resultSet;
 
@@ -40,24 +43,11 @@ public class TestSelect {
     @Test
     public void testProjection() {
         setupTest();
-        Expression exp1 = times(
-            new Variable("column1"),
-            () -> new IntValue(10)
-        );
-        Expression exp2 = times(
-            new Variable("column1"),
-            new Variable("column2")
-        );
-        Expression exp3 = new Variable("column3");
-        List<Expression> expressions = Arrays.asList(
-            exp1,
-            exp2,
-            exp3
-        );
-        Select pj = new Select(
-            resultSet,
-            expressions
-        );
+        String query = "select column1*10, column1*column2, column3 " +
+            "from my_table";
+        Select pj = new ParsedSql(query)
+            .select()
+            .withRows(this.resultSet);
         assertThat(
             pj.asList(),
             is(Arrays.asList(
@@ -65,40 +55,6 @@ public class TestSelect {
                 row(20, 8, 6),
                 row(30, 21, 9),
                 row(40, 24, 8)
-            ))
-        );
-    }
-
-    @Test
-    public void testSelection() {
-        setupTest();
-        Expression exp1 = times(
-            new Variable("column1"),
-            () -> new IntValue(10)
-        );
-        Expression exp2 = times(
-            new Variable("column1"),
-            new Variable("column2")
-        );
-        Expression exp3 = new Variable("column3");
-        List<Expression> expressions = Arrays.asList(
-            exp1,
-            exp2,
-            exp3
-        );
-        BooleanExpression filter = eq(
-            variable("column1"),
-            integer(3)
-        );
-        Select select = new Select(
-            resultSet,
-            expressions,
-            filter
-        );
-        assertThat(
-            select.asList(),
-            is(Arrays.asList(
-                row(30, 21, 9)
             ))
         );
     }
