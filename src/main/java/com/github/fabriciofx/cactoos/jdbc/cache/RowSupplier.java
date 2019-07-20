@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class RowSupplier implements Supplier<Row> {
+class RowSupplier implements Supplier<Row> {
     private final ResultSet resultSet;
     private final Function<String, Integer> mapping;
 
